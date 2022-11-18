@@ -12,6 +12,7 @@ import { PoolHeader } from '../components/PoolHeader';
 import { EmptyMyPoolList } from '../components/EmptyMyPoolList';
 import { Option } from '../components/Option';
 import { Guesses } from '../components/Guesses';
+import { useStatusBar } from '../hooks/useStatusBar';
 
 interface RoutePrams {
   id: string;
@@ -21,11 +22,17 @@ export function Details() {
   const [optionSelected, setOptionSelected] = useState<'guesses' | 'ranking'>('guesses')
   const [isLoading, setIsLoading] = useState(true);
   const [poolDetails, setPoolDetails] = useState<PoolCardProps>({} as PoolCardProps);
+  const { handleSetHidden } = useStatusBar();
 
   const route = useRoute();
   const toast = useToast();
 
   const { id } = route.params as RoutePrams;
+
+  useEffect(() => {
+    handleSetHidden(true);
+  }, [])
+
 
   async function fetchPoolDetails() {
     try {
